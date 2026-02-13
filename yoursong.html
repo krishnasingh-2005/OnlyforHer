@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>A Song from My Heart 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600&display=swap" rel="stylesheet">
+
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(-45deg,#f8c8dc,#e0bbe4,#fff0f5,#f9d5e5);
+  background-size: 400% 400%;
+  animation: romanticFlow 20s ease infinite;
+  text-align: center;
+  color: #333;
+}
+
+@keyframes romanticFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+h1 {
+  margin-top: 30px;
+  font-size: 40px;
+  color: #ff3366;
+}
+
+#note {
+  display: inline-block;
+}
+
+@keyframes softBeat {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+#note.playing {
+  animation: softBeat 1.4s ease-in-out infinite;
+}
+
+p {
+  font-size: 20px;
+  color: #8B0000;
+}
+
+.paragraph-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+#letterIcon {
+  font-size: 1.6em;
+  cursor: pointer;
+  line-height: 1;
+}
+
+body.letter-open > *:not(#letterOverlay):not(.petal):not(.heart) {
+  filter: blur(6px) saturate(1.1);
+  transition: filter 0.6s ease;
+}
+
+.valentine-box {
+  margin: 30px auto;
+  padding: 180px 50px;
+  max-width: 634px;
+  background: #000000;
+  border-radius: 30px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.15);
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.valentine-box:hover {
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+}
+
+.player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.play-btn {
+  background: #e63946;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  font-size: 26px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.progress-container {
+  width: 300px;
+  height: 10px;
+  background: #ffe0ec;
+  border-radius: 5px;
+  position: relative;
+}
+
+.progress {
+  height: 100%;
+  background: linear-gradient(to right,#e63946,#ff6f91);
+  width: 0%;
+}
+
+.progress-slider {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.volume-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.volume-icon {
+  font-size: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #e63946;
+}
+
+.volume-slider {
+  width: 100px;
+}
+
+.volume-percent {
+  font-size: 13px;
+  color: #8B0000;
+  min-width: 36px;
+}
+
+.download-btn {
+  background: #e63946;
+  color: white;
+  padding: 10px 18px;
+  border-radius: 20px;
+  text-decoration: none;
+}
+
+.loop-btn {
+  background: #ffe0ec;
+  color: #e63946;
+  padding: 10px 18px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.loop-btn.active {
+  background: #e63946;
+  color: white;
+}
+
+.time {
+  font-size: 14px;
+  margin-top: 6px;
+}
+
+.home-btn {
+  margin-top: 20px;
+  background: linear-gradient(to right,#ff6f91,#e63946);
+  color: white;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+#letterOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(255,192,203,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transition: opacity 0.6s ease;
+}
+
+#letterOverlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@keyframes loveOpen {
+  0% { transform: scale(0.6) translateY(80px); opacity: 0; }
+  60% { transform: scale(1.05) translateY(-6px); opacity: 1; }
+  100% { transform: scale(1) translateY(0); }
+}
+
+#letterBox {
+  background: linear-gradient(180deg,#fff0f5,#ffe4ec);
+  width: 92%;
+  max-width: 460px;
+  max-height: 85vh;
+  border-radius: 26px;
+  padding: 26px 22px;
+  animation: loveOpen 0.7s ease forwards;
+  position: relative;
+  overflow: hidden;
+}
+
+.letter-content {
+  font-family: 'Dancing Script', cursive;
+  font-size: 16px;
+  color: #8B0000;
+  line-height: 1.7;
+  text-align: left;
+  max-height: calc(85vh - 140px);
+  overflow-y: auto;
+  padding-top: 10px;
+  padding-left: 12px;
+  padding-right: 12px;
+  box-sizing: border-box;
+}
+
+#closeLetter {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  font-size: 22px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #e63946;
+}
+
+.save-letter-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.save-letter-actions button {
+  background: linear-gradient(to right,#ff6f91,#e63946);
+  color: white;
+  border: none;
+  border-radius: 18px;
+  padding: 6px 14px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.petal, .heart {
+  position: fixed;
+  top: -40px;
+  pointer-events: none;
+  z-index: 10000;
+  opacity: 0.9;
+  animation: loveFall linear forwards;
+}
+
+@keyframes loveFall {
+  0% { transform: translateY(-40px) rotate(0deg); opacity: 0; }
+  10% { opacity: 1; }
+  100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<h1><span id="note">🎶</span> A Song Just for You</h1>
+
+<p>
+  <span class="paragraph-inline">
+    This is my voice, my love, my heart — singing only for you
+    <span id="letterIcon">💌</span>
+  </span>
+</p>
+
+<div class="valentine-box"></div>
+
+<div class="player">
+  <audio id="audio" preload="metadata">
+    <source src="your-song.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="controls">
+    <button class="play-btn" id="playBtn">💗</button>
+
+    <div class="progress-container">
+      <div class="progress" id="progressBar"></div>
+      <input type="range" id="progressSlider" class="progress-slider" min="0" max="100" value="0">
+    </div>
+
+    <div class="volume-group">
+      <button id="volumeIcon" class="volume-icon">🔊</button>
+      <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.01" value="1">
+      <span id="volumePercent" class="volume-percent">100%</span>
+    </div>
+
+    <a href="your-song.mp3" download class="download-btn">💝 Download</a>
+    <button class="loop-btn" id="loopBtn">🔁 Loop</button>
+  </div>
+
+  <div class="time" id="timeDisplay">0:00 / 0:00</div>
+  <button class="home-btn" onclick="location.href='main.html'">← Back to Home</button>
+</div>
+
+<div id="letterOverlay">
+  <div id="letterBox">
+    <button id="closeLetter">×</button>
+
+    <div class="save-letter-actions">
+      <button id="saveTextBtn">📄 Save as Text</button>
+      <button id="saveImageBtn">🖼️ Save as Image</button>
+    </div>
+
+    <div class="letter-content">
+      <p><strong>My Dearest,</strong></p>
+
+      <p>Kabhi kabhi sochta hoon…<br>
+      ki main apni feelings kaise likhoon,<br>
+      kyunki jo mehsoos hota hai tumhare liye,<br>
+      wo sirf shabdon mein bandhna mushkil sa lagta hai.</p>
+
+      <p>Tumhari ek muskurahat,<br>
+      mere din ko roshan kar deti hai.<br>
+      Tumhari awaaz,<br>
+      mere dil ke shor ko shaant kar deti hai.</p>
+
+      <p>Main perfect nahi hoon,<br>
+      shayad kabhi kabhi bolna bhi nahi aata,<br>
+      lekin ek baat sach hai —<br>
+      jab tum paas hoti ho, duniya thodi si zyada khoobsurat lagti hai.</p>
+
+      <p>Tumhare saath baatein karna,<br>
+      bina wajah hasna,<br>
+      aur sirf tumhe sunna —<br>
+      ye meri sukoon wali jagah hai.</p>
+
+      <p>Tum sirf pasand nahi ho,<br>
+      tum woh ehsaas ho,<br>
+      jismein dil baar-baar rehna chahta hai.</p>
+
+      <p>Main tumse waade nahi karta<br>
+      ki main sab kuch perfect kar dunga,<br>
+      lekin ye zaroor kehta hoon<br>
+      ki tumhari izzat, tumhari feelings,<br>
+      aur tumhara saath —<br>
+      hamesha dil se nibhaunga.</p>
+
+      <p>Agar kabhi tum thak jao,<br>
+      toh mera saath yaad rakhna.<br>
+      Agar kabhi khud par shaq ho,<br>
+      toh meri aankhon se khud ko dekhna.</p>
+
+      <p>Kyuki shayad tumhe pata na ho,<br>
+      par mere liye tum already kaafi ho.</p>
+
+      <p>Aur haan…<br>
+      ye sirf ek letter nahi hai,<br>
+      ye wo baat hai<br>
+      jo main roz dil mein mehsoos karta hoon,<br>
+      bas aaj likh di 💌</p>
+
+      <p><strong>Hamesha tumhara,</strong><br>
+      — jo tumhe sirf pasand nahi,<br>
+      balki dil se chahta hai.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const audio = document.getElementById('audio');
+const playBtn = document.getElementById('playBtn');
+const progressBar = document.getElementById('progressBar');
+const progressSlider = document.getElementById('progressSlider');
+const timeDisplay = document.getElementById('timeDisplay');
+const volumeSlider = document.getElementById('volumeSlider');
+const volumeIcon = document.getElementById('volumeIcon');
+const volumePercent = document.getElementById('volumePercent');
+const loopBtn = document.getElementById('loopBtn');
+const note = document.getElementById('note');
+
+let lastVolume = 1;
+
+playBtn.onclick = () => {
+  if (audio.paused) {
+    audio.play();
+    playBtn.textContent = '💔';
+    note.classList.add('playing');
+  } else {
+    audio.pause();
+    playBtn.textContent = '💗';
+    note.classList.remove('playing');
+  }
+};
+
+audio.addEventListener('timeupdate', () => {
+  if (!audio.duration) return;
+  const percent = (audio.currentTime / audio.duration) * 100;
+  progressBar.style.width = percent + '%';
+  progressSlider.value = percent;
+  const fmt = t => `${Math.floor(t/60)}:${String(Math.floor(t%60)).padStart(2,'0')}`;
+  timeDisplay.textContent = `${fmt(audio.currentTime)} / ${fmt(audio.duration)}`;
+});
+
+progressSlider.oninput = () => {
+  if (audio.duration) {
+    audio.currentTime = (progressSlider.value / 100) * audio.duration;
+  }
+};
+
+volumeSlider.oninput = () => {
+  audio.volume = volumeSlider.value;
+  volumePercent.textContent = Math.round(audio.volume * 100) + '%';
+  volumeIcon.textContent = audio.volume === 0 ? '🔇' : '🔊';
+  if (audio.volume > 0) lastVolume = audio.volume;
+};
+
+volumeIcon.onclick = () => {
+  audio.volume = audio.volume > 0 ? 0 : lastVolume;
+  volumeSlider.value = audio.volume;
+  volumePercent.textContent = Math.round(audio.volume * 100) + '%';
+  volumeIcon.textContent = audio.volume === 0 ? '🔇' : '🔊';
+};
+
+loopBtn.onclick = () => {
+  audio.loop = !audio.loop;
+  loopBtn.classList.toggle('active');
+};
+
+/* ✅ SMALL FIX YOU REQUESTED */
+audio.addEventListener('ended', () => {
+  if (!audio.loop) {
+    playBtn.textContent = '💗';
+    note.classList.remove('playing');
+  }
+});
+
+function spawnLoveFall() {
+  const items = ['🌸','💮','🌷','🌺','💖','💗','💘','❤️'];
+  for (let i = 0; i < 18; i++) {
+    const el = document.createElement('div');
+    el.className = Math.random() > 0.5 ? 'heart' : 'petal';
+    el.textContent = items[Math.floor(Math.random() * items.length)];
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.fontSize = (18 + Math.random() * 12) + 'px';
+    el.style.animationDuration = (6 + Math.random() * 4) + 's';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 12000);
+  }
+}
+
+const letterIcon = document.getElementById('letterIcon');
+const letterOverlay = document.getElementById('letterOverlay');
+const closeLetter = document.getElementById('closeLetter');
+const letterContent = document.querySelector('.letter-content');
+
+letterIcon.onclick = () => {
+  document.body.classList.add('letter-open');
+  letterOverlay.classList.add('active');
+  letterContent.scrollTop = 0;
+  spawnLoveFall();
+};
+
+closeLetter.onclick = () => {
+  letterOverlay.classList.remove('active');
+  document.body.classList.remove('letter-open');
+};
+
+document.getElementById('saveTextBtn').onclick = () => {
+  const text = document.querySelector('.letter-content').innerText;
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'My_Letter_For_You.txt';
+  link.click();
+};
+
+document.getElementById('saveImageBtn').onclick = () => {
+  const content = document.querySelector('.letter-content');
+  const scale = 2;
+  const width = content.scrollWidth;
+  const height = content.scrollHeight;
+
+  const canvas = document.createElement('canvas');
+  canvas.width = width * scale;
+  canvas.height = height * scale;
+
+  const ctx = canvas.getContext('2d');
+  ctx.scale(scale, scale);
+  ctx.fillStyle = '#fff0f5';
+  ctx.fillRect(0, 0, width, height);
+  ctx.fillStyle = '#8B0000';
+  ctx.font = '16px "Dancing Script", cursive';
+
+  let y = 30;
+  content.innerText.split('\n').forEach(line => {
+    ctx.fillText(line, 20, y);
+    y += 22;
+  });
+
+  const link = document.createElement('a');
+  link.href = canvas.toDataURL('image/png');
+  link.download = 'My_Letter_For_You.png';
+  link.click();
+};
+</script>
+
+</body>
+</html>

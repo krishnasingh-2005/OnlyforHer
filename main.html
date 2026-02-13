@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Happy Valentine's Day ❤️</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to right, #ff9a9e, #fad0c4);
+      text-align: center;
+      color: #fff;
+    }
+    header {
+      padding: 50px;
+      font-size: 40px;
+      font-weight: bold;
+    }
+    .message {
+      font-size: 22px;
+      margin: 20px auto;
+      width: 70%;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 20px;
+      border-radius: 15px;
+      line-height: 1.6;
+    }
+    .countdown {
+      width: 100vw;
+      height: 80px;
+      background: rgba(255, 255, 255, 0.3);
+      overflow: hidden;
+      position: relative;
+      border-radius: 20px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      margin: 30px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .scroll-container {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+    .scroll-text {
+      display: inline-block;
+      white-space: nowrap;
+      animation: scrollLoop 25s linear infinite;
+    }
+    .scroll-text span {
+      display: inline-block;
+      margin-right: 100px;
+      font-size: 32px;
+      font-weight: bold;
+      color: #fff;
+      text-shadow: 0 0 10px #fff, 0 0 20px #ff69b4;
+    }
+    @keyframes scrollLoop {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .gallery-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      margin: 40px 0;
+    }
+    .left-img, .right-img {
+      max-width: 250px;
+      height: auto;
+      border-radius: 15px;
+      margin: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+    .carousel-container {
+      position: relative;
+      width: 250px;
+      height: 350px;
+      overflow: hidden;
+      margin: 0 20px;
+    }
+    .carousel {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    .carousel img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 250px;
+      height: auto;
+      border-radius: 15px;
+      opacity: 0;
+      transform: scale(0.8) translateX(0);
+      transition: transform 1s ease, opacity 1s ease;
+      z-index: 0;
+    }
+    .carousel img.center {
+      opacity: 1;
+      transform: scale(1) translateX(0);
+      z-index: 3;
+    }
+    .carousel img.behind-left {
+      opacity: 0;
+      transform: scale(0.8) translateX(-50%);
+      z-index: 1;
+    }
+    .carousel img.behind-right {
+      opacity: 0;
+      transform: scale(0.8) translateX(50%);
+      z-index: 2;
+    }
+    .surprise-btn {
+      background: #ff4b5c;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 20px;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .surprise-btn:hover {
+      background: #ff1e3c;
+      transform: scale(1.1);
+    }
+    input {
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      font-size: 18px;
+      margin-top: 20px;
+    }
+    .unlock-btn {
+      background: #ff4b5c;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 18px;
+      border-radius: 15px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    .unlock-btn:hover {
+      background: #ff1e3c;
+    }
+    #loader {
+      display: none;
+      margin-top: 30px;
+      position: relative;
+    }
+    .spinner {
+      border: 8px solid #ffe0ec;
+      border-top: 8px solid #ff4b5c;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .sparkle {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Red_heart.svg/1024px-Red_heart.svg.png') no-repeat center;
+      background-size: contain;
+      animation: float 4s linear infinite;
+      opacity: 0.8;
+    }
+    @keyframes float {
+      0% { transform: translateY(0) scale(0.5); opacity: 0; }
+      50% { opacity: 1; }
+      100% { transform: translateY(-100px) scale(1.2); opacity: 0; }
+    }
+    .volume-control-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    .volume-control-wrapper label {
+      font-size: 18px;
+      color: #fff;
+    }
+    .volume-control-wrapper input[type="range"] {
+      width: 200px;
+      accent-color: #ff4b5c;
+    }
+    .volume-control-wrapper img.volume-icon {
+      width: 24px;
+      height: 24px;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+  <header>💖 Happy Valentine's Day 💖</header>
+
+  <div class="message">
+    <p><strong><em>My Dearest Wife,</em></strong></p>
+    <p>
+      From the moment our <em>souls united</em>, my world became <em>brighter</em>, <em>softer</em>, and endlessly more <em>beautiful</em>.<br>
+      You are not just my <strong>wife</strong> — you are my <em>Sarasvatee</em>, my <em>heartbeat</em>, my <strong>forever</strong>.<br>
+      This little corner of the web is a quiet tribute to the <em>boundless love</em> I hold for you.<br>
+      With every <em>sunrise</em>, I promise to <strong>cherish</strong> you more deeply than the day before. ❤️
+    </p>
+  </div>
+
+  <div class="countdown">
+    <div class="scroll-container">
+      <div class="scroll-text" id="scrollText">
+        <span>I LOVE YOU MERA BACCHA 💖💫❤️</span>
+        <span>I LOVE YOU MERA BACCHA 💖💫❤️</span>
+        <span>I LOVE YOU MERA BACCHA 💖💫❤️</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="gallery-row">
+    <img src="images/us1.png" class="left-img">
+    <div class="carousel-container">
+      <div class="carousel" id="carousel">
+        <img src="images/pic1.jpg">
+        <img src="images/pic2.jpg">
+        <img src="images/pic3.jpg">
+        <img src="images/pic4.jpg">
+        <img src="images/pic5.jpg">
+        <img src="images/pic6.jpg">
+        <img src="images/pic7.jpg">
+        <img src="images/pic8.jpg">
+        <img src="images/pic9.jpg">
+        <img src="images/pic10.jpg">
+        <img src="images/pic11.jpg">
+        <img src="images/pic12.jpg">
+        <img src="images/pic13.png">
+      </div>
+    </div>
+    <img src="images/us2.png" alt="Sunset Field Laughter" class="right-img">
+  </div>
+
+  <button class="surprise-btn" onclick="showSurprise()">Click for a Surprise 💝</button>
+
+  <div id="nicknameSection">
+    <p>🔒 Enter your special nickname to unlock a hidden surprise:</p>
+    <input type="text" id="nickname" placeholder="Enter nickname here">
+    <button class="unlock-btn" onclick="unlockSecret()">Unlock</button>
+  </div>
+
+  <div id="loader">
+    <div class="spinner"></div>
+    <p>Loading your surprise... 💖</p>
+  </div>
+
+  <div class="volume-control-wrapper">
+    <label for="volumeControl">🎚️ Background Music Volume:</label>
+    <input type="range" id="volumeControl" min="0" max="0.5" step="0.01" value="0.5">
+  </div>
+  <audio id="bgMusic" autoplay loop>
+    <source src="music/Tere Sang Yaara.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <audio id="chime">
+    <source src="E:/Valentine/sound/chime.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    const scrollText = document.getElementById("scrollText");
+    scrollText.innerHTML += scrollText.innerHTML;
+
+    function showSurprise() {
+      const nicknameInput = document.getElementById("nickname").value.toLowerCase();
+      const today = new Date();
+      const unlockDate = new Date("Feb 14, 2026 00:00:00");
+
+      if (nicknameInput === "host") {
+        sessionStorage.setItem("hostMode", "true");
+        playChimeAndRedirect("surprise.html");
+      } else if (nicknameInput === "143" && today >= unlockDate) {
+        sessionStorage.setItem("hostMode", "true");
+        playChimeAndRedirect("surprise.html");
+      } else {
+        alert("Patience, my love. The surprise unlocks on Valentine’s Day 💌");
+      }
+    }
+
+    function unlockSecret() {
+      const nicknameInput = document.getElementById("nickname").value.toLowerCase();
+      const today = new Date();
+      const unlockDate = new Date("Feb 14, 2026 00:00:00");
+
+      if (nicknameInput === "host") {
+        sessionStorage.setItem("hostMode", "true");
+        playChimeAndRedirect("yoursong.html");
+      } else if (nicknameInput === "mera baccha" && today >= unlockDate) {
+        sessionStorage.setItem("hostMode", "true");
+        playChimeAndRedirect("yoursong.html");
+      } else {
+        alert("Nickname not recognized or not yet available 💌");
+      }
+    }
+
+    function playChimeAndRedirect(url) {
+      const loader = document.getElementById("loader");
+      const chime = document.getElementById("chime");
+      loader.style.display = "block";
+      chime.play();
+
+      for (let i = 0; i < 15; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'sparkle';
+        heart.style.left = Math.random() * 90 + '%';
+        heart.style.top = Math.random() * 60 + '%';
+        heart.style.animationDuration = (3 + Math.random() * 2) + 's';
+        loader.appendChild(heart);
+        setTimeout(() => heart.remove(), 4000);
+      }
+
+      setTimeout(() => {
+        window.location.href = url;
+      }, 3000);
+    }
+
+    const bgMusic = document.getElementById("bgMusic");
+    const volumeControl = document.getElementById("volumeControl");
+
+    bgMusic.addEventListener("loadedmetadata", () => {
+      bgMusic.volume = parseFloat(volumeControl.value);
+    });
+
+    volumeControl.addEventListener("input", () => {
+      bgMusic.volume = parseFloat(volumeControl.value);
+    });
+
+    if (sessionStorage.getItem("audioUnlocked") === "true") {
+      bgMusic.play().catch(() => {
+        console.warn("Autoplay blocked despite unlock.");
+      });
+    }
+
+    function checkHostMode() {
+      if (sessionStorage.getItem("hostMode") === "true") {
+        document.body.classList.add("host-mode");
+      }
+    }
+
+    checkHostMode();
+
+    const images = document.querySelectorAll('#carousel img');
+    let current = 0;
+
+    function updateCarousel() {
+      images.forEach((img, i) => {
+        img.classList.remove('center', 'behind-left', 'behind-right');
+        img.style.zIndex = 0;
+      });
+
+      const center = images[current];
+      const left = images[(current - 1 + images.length) % images.length];
+      const right = images[(current + 1) % images.length];
+
+      center.classList.add('center');
+      left.classList.add('behind-left');
+      right.classList.add('behind-right');
+    }
+
+    updateCarousel();
+    setInterval(() => {
+      current = (current + 1) % images.length;
+      updateCarousel();
+    }, 3000);
+  </script>
+</body>
+</html>

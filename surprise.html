@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Will You Be My Valentine?</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      background: linear-gradient(to right, #ffdde1, #ee9ca7);
+      text-align: center;
+      overflow: hidden;
+    }
+
+    h1 {
+      margin-top: 80px;
+      font-size: 3em;
+      color: #fff;
+      text-shadow: 2px 2px 10px #ff69b4;
+    }
+
+    #buttons {
+      margin-top: 50px;
+      position: relative;
+      height: 200px;
+    }
+
+    button {
+      font-size: 1.5em;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: absolute;
+    }
+
+    #yesBtn {
+      background-color: #ff4b5c;
+      color: white;
+      left: 40%;
+    }
+
+    #noBtn {
+      background-color: #fcd5ce;
+      color: #333;
+      right: 40%;
+    }
+
+    #finalMessage {
+      display: none;
+      font-size: 3em;
+      color: white;
+      text-shadow: 2px 2px 20px red;
+      animation: zoomBounce 3s ease forwards;
+    }
+
+    #nextSurprise {
+      display: none;
+      margin-top: 30px;
+      animation: romanticReveal 2s ease forwards;
+    }
+
+    #nextBtn {
+      background-color: #6a0572;
+      color: white;
+      font-size: 1.2em;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: static;
+    }
+
+    #nextBtn:hover {
+      background-color: #8e24aa;
+      transform: scale(1.05);
+    }
+
+    @keyframes zoomBounce {
+      0% {
+        transform: scale(1);
+        opacity: 0;
+      }
+      50% {
+        transform: scale(5);
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    @keyframes romanticReveal {
+      0% {
+        opacity: 0;
+        transform: scale(0.5) rotate(-10deg);
+      }
+      60% {
+        opacity: 1;
+        transform: scale(1.1) rotate(5deg);
+      }
+      100% {
+        transform: scale(1) rotate(0deg);
+      }
+    }
+
+    @keyframes trap {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(0) rotate(720deg); opacity: 0; }
+    }
+
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Will you be my valentine?</h1>
+
+  <div id="buttons">
+    <button id="yesBtn">Yes</button>
+    <button id="noBtn">No</button>
+  </div>
+
+  <div id="finalMessage">I knew it! You love me too 💘</div>
+
+  <div id="nextSurprise">
+    <button id="nextBtn">Time for NEXT Surprise 🎁</button>
+  </div>
+
+  <audio id="bgMusic" loop>
+    <source src="music/romantic.mp3" type="audio/mpeg" />
+  </audio>
+
+  <script>
+    const yesBtn = document.getElementById("yesBtn");
+    const noBtn = document.getElementById("noBtn");
+    const finalMessage = document.getElementById("finalMessage");
+    const nextSurprise = document.getElementById("nextSurprise");
+    const nextBtn = document.getElementById("nextBtn");
+    const bgMusic = document.getElementById("bgMusic");
+
+    let noClicks = 0;
+    let audioUnlocked = false;
+
+    function unlockAudio() {
+      if (!audioUnlocked) {
+        bgMusic.volume = 0.3;
+        bgMusic.play();
+        audioUnlocked = true;
+      }
+    }
+
+    yesBtn.addEventListener("click", () => {
+      unlockAudio();
+      finalMessage.style.display = "block";
+      document.body.style.background = "black";
+      yesBtn.style.display = "none";
+      noBtn.style.display = "none";
+
+      setTimeout(() => {
+        nextSurprise.style.display = "block";
+      }, 3000); // Wait for finalMessage animation to finish
+    });
+
+    noBtn.addEventListener("click", () => {
+      unlockAudio();
+      noClicks++;
+
+      const scale = 1 + noClicks * 0.1;
+      yesBtn.style.transform = `scale(${scale})`;
+
+      if (noClicks < 6) {
+        // playful growth
+      } else if (noClicks < 25) {
+        const x = Math.random() * (window.innerWidth - 150);
+        const y = Math.random() * (window.innerHeight - 150);
+        noBtn.style.transition = "all 0.4s ease";
+        noBtn.style.left = `${x}px`;
+        noBtn.style.top = `${y}px`;
+      } else {
+        noBtn.style.animation = "trap 2s forwards";
+        setTimeout(() => {
+          noBtn.style.display = "none";
+        }, 2000);
+      }
+    });
+
+document.addEventListener("DOMContentLoaded", function () {
+  const nextBtn = document.getElementById("nextBtn");
+  if (nextBtn) {
+    nextBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      window.location.href = "main.html";
+    });
+  }
+});
+  </script>
+</body>
+</html>

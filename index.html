@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome 💘</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to right, #fbc2eb, #a6c1ee);
+      text-align: center;
+      color: #333;
+      padding: 50px;
+      overflow-x: hidden;
+    }
+    h1 {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+    .countdown {
+      font-size: 28px;
+      font-weight: bold;
+      margin: 20px auto;
+      padding: 15px 30px;
+      background: rgba(255, 255, 255, 0.3);
+      color: #fff;
+      border-radius: 20px;
+      display: inline-block;
+      max-width: 90%;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      text-shadow: 0 0 10px #fff, 0 0 20px #ff69b4;
+    }
+    .lock-box {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 30px;
+      border-radius: 20px;
+      display: inline-block;
+      box-shadow: 0 0 10px #ff4b5c;
+      margin-top: 30px;
+    }
+    input {
+      padding: 12px;
+      font-size: 18px;
+      border-radius: 10px;
+      border: none;
+      width: 250px;
+      margin-top: 10px;
+    }
+    button {
+      padding: 12px 25px;
+      font-size: 18px;
+      background: #ff4b5c;
+      color: white;
+      border: none;
+      border-radius: 15px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #ff1e3c;
+    }
+    .error {
+      color: red;
+      margin-top: 15px;
+    }
+    .sparkle {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Red_heart.svg/1024px-Red_heart.svg.png') no-repeat center;
+      background-size: contain;
+      animation: float 4s linear infinite;
+      opacity: 0.8;
+      pointer-events: none;
+    }
+    @keyframes float {
+      0% { transform: translateY(0) scale(0.5); opacity: 0; }
+      50% { opacity: 1; }
+      100% { transform: translateY(-100px) scale(1.2); opacity: 0; }
+    }
+    .firework {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: transparent;
+      pointer-events: none;
+      animation: explode 1.5s ease-out forwards;
+      z-index: 999;
+    }
+    .firework::before, .firework::after {
+      content: "💖";
+      position: absolute;
+      font-size: 28px;
+      animation: burst 1.5s ease-out forwards;
+    }
+    @keyframes explode {
+      0% { transform: scale(0); opacity: 1; }
+      100% { transform: scale(2); opacity: 0; }
+    }
+    @keyframes burst {
+      0% { transform: translate(0, 0) scale(1); opacity: 1; }
+      100% {
+        transform: translate(calc(-60px + 120px * var(--x)), calc(-60px + 120px * var(--y))) scale(0.6);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>💖 Welcome to Something Special 💖</h1>
+  <div class="countdown" id="countdown">💘 Loading countdown... 💘</div>
+  <p>Please enter your secret key to continue</p>
+
+  <div class="lock-box">
+    <input type="password" id="accessKey" placeholder="Enter your key">
+    <button onclick="unlock()">Unlock</button>
+    <div class="error" id="errorMsg"></div>
+  </div>
+
+  <audio id="bgMusic" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_9c3c7a5c9e.mp3?filename=romantic-piano-ambient-110397.mp3" preload="auto"></audio>
+
+  <script>
+    const countdown = document.getElementById("countdown");
+    const targetDate = new Date("Feb 14, 2026 00:00:00").getTime();
+    const sparkleCount = 20;
+    let hostPreviewActive = false;
+    let timer;
+
+    const storedKey = sessionStorage.getItem("valentineKey");
+    const now = new Date();
+    if (storedKey === "tujaanhaimeri" && now >= new Date("Feb 14, 2026 00:00:00")) {
+      window.location.href = "main.html";
+    }
+
+    function unlock() {
+      const key = document.getElementById("accessKey").value.toLowerCase();
+      const error = document.getElementById("errorMsg");
+      const today = new Date();
+      const unlockDate = new Date("Feb 14, 2026 00:00:00");
+
+      function unlockAudioGlobally() {
+        try {
+          const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          const buffer = audioCtx.createBuffer(1, 1, 22050);
+          const source = audioCtx.createBufferSource();
+          source.buffer = buffer;
+          source.connect(audioCtx.destination);
+          source.start(0);
+          sessionStorage.setItem("audioUnlocked", "true");
+        } catch (e) {
+          console.warn("Audio unlock failed:", e);
+        }
+      }
+
+      if (key === "tujaanhaimeri") {
+        if (today >= unlockDate) {
+          unlockAudioGlobally();
+          sessionStorage.setItem("valentineKey", key);
+          window.location.href = "main.html";
+        } else {
+          alert("⏳ This page unlocks on Valentine’s Day 💘");
+        }
+      } else if (key === "hostpreview") {
+        unlockAudioGlobally();
+        sessionStorage.setItem("valentineKey", key);
+        hostPreviewActive = true;
+        clearInterval(timer);
+        countdown.innerHTML = "💖 It's Valentine's Day! 💖";
+        launchSparkles();
+        launchFireworks();
+        playMusic();
+        alert("🎉 Host preview mode activated! Effects triggered immediately.");
+      } else if (key === "host") {
+        unlockAudioGlobally();
+        sessionStorage.setItem("valentineKey", key);
+        countdown.innerHTML = "💖 Master key accepted! 💖";
+        launchSparkles();
+        launchFireworks();
+        playMusic();
+        setTimeout(() => {
+          window.location.href = "main.html";
+        }, 3000);
+      } else {
+        error.textContent = "❌ Incorrect key. Please try again.";
+      }
+    }
+
+    timer = setInterval(function () {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+
+      if (distance > 0) {
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        countdown.innerHTML = `💘 ${days}d ${hours}h ${minutes}m ${seconds}s 💘`;
+      } else {
+        clearInterval(timer);
+        countdown.innerHTML = "💖 It's Valentine's Day! 💖";
+        if (hostPreviewActive || storedKey === "tujaanhaimeri" || storedKey === "host") {
+          launchSparkles();
+          launchFireworks();
+          playMusic();
+        }
+      }
+    }, 1000);
+
+    function launchSparkles() {
+      for (let i = 0; i < sparkleCount; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'sparkle';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.top = Math.random() * 80 + 'vh';
+        heart.style.animationDuration = (3 + Math.random() * 2) + 's';
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 5000);
+      }
+    }
+
+    function launchFireworks() {
+      setInterval(() => {
+        for (let i = 0; i < 6; i++) {
+          const fw = document.createElement('div');
+          fw.className = 'firework';
+          fw.style.left = `${Math.random() * 100}vw`;
+          fw.style.top = `${Math.random() * 100}vh`;
+          fw.style.setProperty('--x', Math.random());
+          fw.style.setProperty('--y', Math.random());
+          document.body.appendChild(fw);
+          setTimeout(() => fw.remove(), 1500);
+        }
+      }, 2000);
+    }
+
+    function playMusic() {
+      const music = document.getElementById("bgMusic");
+      if (music) {
+        music.volume = 0.5;
+        music.play().catch(() => {
+          console.warn("Autoplay blocked. User interaction may be required.");
+        });
+      }
+    }
+  </script>
+</body>
+</html>
