@@ -68,13 +68,23 @@ body.letter-open > *:not(#letterOverlay):not(.petal):not(.heart) {
 
 .valentine-box {
   margin: 30px auto;
-  padding: 180px 50px;
   max-width: 634px;
+  aspect-ratio: 16 / 9;   /* Keeps perfect 16:9 ratio */
   background: #000000;
   border-radius: 30px;
+  overflow: hidden;       /* Prevents video from overflowing rounded corners */
   border: 2px solid rgba(255, 255, 255, 0.4);
   box-shadow: 0 0 8px rgba(255, 255, 255, 0.15);
   transition: border 0.3s ease, box-shadow 0.3s ease;
+  padding: 0;             /* Remove previous large padding */
+}
+
+.valentine-box video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;      /* Makes video fill perfectly */
+  display: block;
+  border-radius: 28px;
 }
 
 .valentine-box:hover {
@@ -294,7 +304,14 @@ body.letter-open > *:not(#letterOverlay):not(.petal):not(.heart) {
   </span>
 </p>
 
-<div class="valentine-box"></div>
+<div class="valentine-box">
+  <video 
+    id="bgVideo"
+    src="your-song-screen.mp4" 
+    muted 
+    playsinline>
+  </video>
+</div>
 
 <div class="player">
   <audio id="audio" preload="metadata">
@@ -398,16 +415,20 @@ const volumeIcon = document.getElementById('volumeIcon');
 const volumePercent = document.getElementById('volumePercent');
 const loopBtn = document.getElementById('loopBtn');
 const note = document.getElementById('note');
+const bgVideo = document.getElementById('bgVideo');
+
 
 let lastVolume = 1;
 
 playBtn.onclick = () => {
   if (audio.paused) {
     audio.play();
+    bgVideo.play();
     playBtn.textContent = '💔';
     note.classList.add('playing');
   } else {
     audio.pause();
+    bgVideo.pause();
     playBtn.textContent = '💗';
     note.classList.remove('playing');
   }
@@ -415,16 +436,27 @@ playBtn.onclick = () => {
 
 audio.addEventListener('timeupdate', () => {
   if (!audio.duration) return;
+
   const percent = (audio.currentTime / audio.duration) * 100;
+
   progressBar.style.width = percent + '%';
   progressSlider.value = percent;
+
+  // 🔥 Sync video time with audio
+  if (Math.abs(bgVideo.currentTime - audio.currentTime) > 0.3) {
+    bgVideo.currentTime = audio.currentTime;
+  }
+
   const fmt = t => `${Math.floor(t/60)}:${String(Math.floor(t%60)).padStart(2,'0')}`;
   timeDisplay.textContent = `${fmt(audio.currentTime)} / ${fmt(audio.duration)}`;
 });
 
 progressSlider.oninput = () => {
   if (audio.duration) {
-    audio.currentTime = (progressSlider.value / 100) * audio.duration;
+    const newTime = (progressSlider.value / 100) * audio.duration;
+
+    audio.currentTime = newTime;
+    bgVideo.currentTime = newTime;   // 🔥 Sync video when dragging
   }
 };
 
@@ -444,6 +476,7 @@ volumeIcon.onclick = () => {
 
 loopBtn.onclick = () => {
   audio.loop = !audio.loop;
+  bgVideo.loop = audio.loop;
   loopBtn.classList.toggle('active');
 };
 
@@ -452,6 +485,8 @@ audio.addEventListener('ended', () => {
   if (!audio.loop) {
     playBtn.textContent = '💗';
     note.classList.remove('playing');
+    bgVideo.pause();
+    bgVideo.currentTime = 0;
   }
 });
 
