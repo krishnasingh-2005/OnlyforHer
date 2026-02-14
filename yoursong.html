@@ -291,31 +291,6 @@ body.letter-open > *:not(#letterOverlay):not(.petal):not(.heart) {
   100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
 }
 
-/* ===== Background Image Layer ===== */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: url("BG-image.png") center center no-repeat;
-  background-size: 750px;   /* controls image size */
-  opacity: 0.45;            /* controls visibility */
-  z-index: 0;
-  pointer-events: none;
-}
-
-/* ===== Edge Highlight Glow ===== */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(circle at center,
-      rgba(255,255,255,0) 50%,
-      rgba(255,105,180,0.25) 75%,
-      rgba(255,0,128,0.35) 100%);
-  z-index: 1;
-  pointer-events: none;
-}
-
 /* Keep all page content above background */
 body > * {
   position: relative;
