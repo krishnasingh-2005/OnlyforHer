@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>A Song from My Heart 💖</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;600&display=swap" rel="stylesheet">
@@ -290,6 +291,37 @@ body.letter-open > *:not(#letterOverlay):not(.petal):not(.heart) {
   10% { opacity: 1; }
   100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
 }
+
+/* ===== Background Image Layer ===== */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: url("BG-image.png") center center no-repeat;
+  background-size: 850px;   /* controls image size */
+  opacity: 0.45;            /* controls visibility */
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ===== Edge Highlight Glow ===== */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center,
+      rgba(255,255,255,0) 50%,
+      rgba(255,105,180,0.25) 75%,
+      rgba(255,0,128,0.35) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Keep all page content above background */
+body > * {
+  position: relative;
+  z-index: 2;
+}
 </style>
 </head>
 
@@ -558,6 +590,72 @@ document.getElementById('saveImageBtn').onclick = () => {
   link.download = 'My_Letter_For_You.png';
   link.click();
 };
+
+/* ================= MOBILE OPTIMIZATION ================= */
+@media (max-width: 768px) {
+
+  h1 {
+    font-size: 26px;
+    margin-top: 20px;
+  }
+
+  p {
+    font-size: 16px;
+    padding: 0 15px;
+  }
+
+  .valentine-box {
+    width: 95%;
+    max-width: 100%;
+    border-radius: 20px;
+  }
+
+  .controls {
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .progress-container {
+    width: 90%;
+  }
+
+  .volume-group {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .volume-slider {
+    width: 120px;
+  }
+
+  .play-btn {
+    font-size: 24px;
+    padding: 14px 20px;
+  }
+
+  .download-btn,
+  .loop-btn,
+  .home-btn {
+    width: 85%;
+    max-width: 300px;
+    text-align: center;
+  }
+
+  .time {
+    font-size: 13px;
+  }
+
+  /* Make background image smaller on mobile */
+  body::before {
+    background-size: 320px;
+    opacity: 0.25;
+  }
+
+}
+
+@media (max-width: 768px) {
+   /* mobile styles go here */
+}
 </script>
 
 </body>
